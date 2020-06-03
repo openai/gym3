@@ -8,10 +8,9 @@
 
 Supported platforms:
 
+- Windows
 - macOS
 - Linux
-
-(Windows support should work but there are no Windows test runners currently)
 
 Supported Pythons:
 
