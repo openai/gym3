@@ -5,15 +5,6 @@ from setuptools import setup, find_packages
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 README = open(os.path.join(SCRIPT_DIR, "README.md"), "rb").read().decode("utf8")
 
-# deploying a new version:
-# 1) increment version number in this file
-# 2) update CHANGES.md
-# 3) tag new version with `git tag v<version number>` and `git push --tags`
-# this section should eventually be done by github actions
-# 4) rm -r dist
-# 5) python setup.py bdist_wheel
-# 6) twine upload dist/*
-
 setup(
     name="gym3",
     packages=find_packages(),
