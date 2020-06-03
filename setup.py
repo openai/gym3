@@ -30,8 +30,6 @@ setup(
         ]
     },
     description="Vectorized Reinforcement Learning Environment Interface",
-    long_description=README,
-    long_description_content_type="text/markdown",
     url="https://github.com/openai/gym3",
     author="OpenAI",
 )
