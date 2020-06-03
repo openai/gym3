@@ -1,0 +1,19 @@
+name: test
+
+channels:
+  - conda-forge
+
+dependencies:
+  - pip
+  - pip:
+    - numpy==1.17.0
+    - cffi==1.13.0
+    - imageio==2.6.0
+    - imageio-ffmpeg==0.3.0
+    - glfw==1.8.6
+    - moderngl==5.5.4
+    - pytest==5.2.1
+    - pytest-benchmark==3.2.2
+    - gym-retro==0.8.0
+    - gym==0.17.2
+    - tensorflow==1.15.0
