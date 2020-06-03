@@ -4,6 +4,7 @@ import platform
 import subprocess as sp
 import tempfile
 
+import pytest
 import numpy as np
 
 from gym3.libenv import CEnv
@@ -36,7 +37,8 @@ class CFixedSequenceEnv(CEnv):
     def act(self, ac):
         super().act({"action": ac})
 
-
+ 
+@pytest.mark.skipif(platform.system() == "Windows", reason="MSVC build not supported yet")
 def test_libenv_fixedseq():
     ref_env = FixedSequenceEnv(num=2)
 

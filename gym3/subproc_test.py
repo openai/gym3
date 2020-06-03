@@ -1,4 +1,5 @@
 import sys
+import platform
 
 import numpy as np
 import pytest
@@ -121,6 +122,8 @@ def subproc_mpi():
     rew, obs, first = env.observe()
 
 
+@pytest.mark.skipif(platform.system() == "Windows", reason="microsoft mpi + mpi4py not installed")
+# https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi
 def test_subproc_mpiexec():
     run_test_with_mpi("gym3.subproc_test:subproc_mpi")
 
