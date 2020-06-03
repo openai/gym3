@@ -43,7 +43,7 @@ extern "C" {
 // opaque type for the environment returned by the library
 typedef void libenv_env;
 
-// data types used by spaces
+// data types used by scalar_type
 enum libenv_dtype {
     LIBENV_DTYPE_UNUSED = 0,
     LIBENV_DTYPE_UINT8 = 1,
@@ -68,6 +68,7 @@ enum libenv_scalar_type {
 
 // different spaces used by the environments
 // for a libenv environment, a space is a collection of (name, tensortype) pairs
+// so the top level space is always a DictType
 enum libenv_space_name {
     LIBENV_SPACE_UNUSED = 0,
     LIBENV_SPACE_OBSERVATION = 1,
@@ -93,7 +94,7 @@ struct libenv_tensortype {
 // libenv_option holds a name-data pair used to configure environment instances
 //
 // the buffer pointed to by the data pointer will be kept alive by python for the
-// duration of the venv or libenv
+// duration of the env
 struct libenv_option {
     char name[LIBENV_MAX_NAME_LEN];
     enum libenv_dtype dtype;
@@ -107,17 +108,12 @@ struct libenv_options {
     int count;
 };
 
-// libenv_buffers holds the result of a call to libenv_observe()
-// all memory will be allocated by the caller of libenv_set_buffers()
+// libenv_buffers contains pointers to buffers used by libenv_observe() and libenv_act()
+// all memory will be allocated by the caller of libenv_set_buffers() (normally libenv.py)
 // and must remain valid until the environment is destroyed with libenv_close()
 //
 // ob and infos are arrays of buffer pointers, the length is determined
 // by the length of the corresponding spaces object times the number of environments
-//
-// the sizes of ob, rews, and dones in bytes are:
-//   ob:      size(ob_space) * num_envs
-//   rews:    4 * num_envs
-//   firsts:  1 * num_envs
 //
 // the spaces are arranged in a structure of arrays fashion, for instance,
 // given an observation space with keys, (uint8) shapes of {'a': [1], 'b': [1]},
@@ -134,17 +130,18 @@ struct libenv_options {
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 struct libenv_buffers {
-    void **ob;
-    float *rew;
-    uint8_t *first;
-    void **info;
-    void **ac;
+    void **ob;  // array of pointers with length len(ob_space) * num_envs
+    float *rew;  // pointer to num_envs floats
+    uint8_t *first;  // pointer to num_envs uint8s
+    void **info;  // array of pointers with length len(info_space) * num_envs
+    void **ac;  // array of pointers with length len(ac_space) * num_envs
 };
 
 #if !defined(NO_PROTOTYPE)
 
 // libenv_version returns the version of libenv that was used to compile the environment
 // in order to detect old versions and provide an error to the user
+//
 // the implementation of this function body should just be "return LIBENV_VERSION;"
 LIBENV_API int libenv_version();
 
@@ -175,14 +172,15 @@ LIBENV_API void libenv_set_buffers(libenv_env *handle, struct libenv_buffers *bu
 
 // libenv_observe observes the environment, along with the reward, first flag, and the info values
 //
-// if the episode is done, the `obs` value of the observation will be from the new episode
+// if the episode is done, the `ob` value of the observation will be from the new episode
 LIBENV_API void libenv_observe(libenv_env *handle);
 
 // libenv_act submits an action to the environment that has already been put into the acts buffer
 // provided with libenv_set_buffers()
 //
 // the environment may apply the action immediately, in a thread, or else just store it and apply it when
-// libenv_observe() is called
+// libenv_observe() is called.  the action must remain valid for the duration of the call to libenv_act()
+// but no guarantees are made outside of that.
 //
 // the step object belongs to the caller, along with the ob buffer which must be allocated by the caller
 // the step object must stay valid until step_wait is called
