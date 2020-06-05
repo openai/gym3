@@ -30,8 +30,10 @@ setup(
         ]
     },
     description="Vectorized Reinforcement Learning Environment Interface",
-    long_description=README,
-    long_description_content_type="text/markdown",
+    # this is broken in twine for some reason
+    #   warning: `long_description_content_type` missing.  defaulting to `text/x-rst`.
+    # long_description=README,
+    # long_description_content_type="text/markdown",
     url="https://github.com/openai/gym3",
     author="OpenAI",
 )
