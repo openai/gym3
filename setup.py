@@ -8,7 +8,7 @@ README = open(os.path.join(SCRIPT_DIR, "README.md"), "rb").read().decode("utf8")
 setup(
     name="gym3",
     packages=find_packages(),
-    version="0.3.0",
+    version="0.3.1",
     install_requires=[
         "numpy>=1.11.0,<2.0.0",
         "cffi>=1.13.0,<2.0.0",
@@ -17,7 +17,7 @@ setup(
         "glfw>=1.8.6,<2.0.0",
         "moderngl>=5.5.4,<6.0.0",
     ],
-    package_data={"gym3": ["libenv.h"]},
+    package_data={"gym3": ["libenv.h", "internal/font.bin"]},
     python_requires=">=3.6.0",
     extras_require={
         "test": [
@@ -30,6 +30,8 @@ setup(
         ]
     },
     description="Vectorized Reinforcement Learning Environment Interface",
+    long_description=README,
+    long_description_content_type="text/markdown",
     url="https://github.com/openai/gym3",
     author="OpenAI",
 )
