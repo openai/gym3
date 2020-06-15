@@ -8,7 +8,7 @@ README = open(os.path.join(SCRIPT_DIR, "README.md"), "rb").read().decode("utf8")
 setup(
     name="gym3",
     packages=find_packages(),
-    version="0.3.1",
+    version="0.3.2",
     install_requires=[
         "numpy>=1.11.0,<2.0.0",
         "cffi>=1.13.0,<2.0.0",

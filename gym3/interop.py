@@ -282,9 +282,9 @@ class ToGymEnv:
         # gym3 does not have a generic render method but the convention
         # is for the info dict to contain an "rgb" entry which could contain
         # human or agent observations
-        info = self.env.get_info()
+        info = self.env.get_info()[0]
         if mode == "rgb_array" and "rgb" in info:
-            return info["rgb"][0]
+            return info["rgb"]
 
     def seed(self):
         print("Warning: seed ignored")

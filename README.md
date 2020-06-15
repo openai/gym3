@@ -80,6 +80,12 @@ while True:
 * [`gym3` for `gym` users](docs/gym3-for-gym-users.md)
 * [Design Choices](docs/design.md)
 
+## Example Environments
+
+* [Example Gridworld](https://github.com/christopher-hesse/example-gridworld) - Simple gridworld where you observe the state directly
+* [Computer Tennis](https://github.com/christopher-hesse/computer-tennis) - Clone of the game "Pong" where you observe pixels. Renders with Cairo or OpenGL headless (no X server required)
+* [`libenv_fixedseq.c`](gym3/libenv_fixedseq.c) - Example environment using the `libenv` C API.  For a full C++ environment that uses this interface, see [Procgen Benchmark](https://github.com/openai/procgen)
+
 ## Changelog
 
 See [CHANGES](CHANGES.md) for changes present in each release.
