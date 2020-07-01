@@ -7,6 +7,7 @@ INTEGER_DTYPE_NAMES = set(
 )
 FLOAT_DTYPE_NAMES = set(["float32", "float64"])
 DTYPE_NAME_TO_MAX_VALUE = {}
+DTYPE_NAME_TO_BIT_WIDTH = {}
 for signed in [True, False]:
     for bit_width in (8, 16, 32, 64):
         if signed:
@@ -14,6 +15,7 @@ for signed in [True, False]:
         else:
             max_value = 2 ** bit_width
         DTYPE_NAME_TO_MAX_VALUE[("" if signed else "u") + f"int{bit_width}"] = max_value
+        DTYPE_NAME_TO_BIT_WIDTH[("" if signed else "u") + f"int{bit_width}"] = bit_width
 
 
 def pod_equals(x, y):

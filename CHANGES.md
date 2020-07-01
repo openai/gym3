@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+
+* Fix memory leak in `ViewerWrapper`
+
 ## 0.3.2
 
 * Fix bug in `render()` function in `FromGymEnv`

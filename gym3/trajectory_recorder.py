@@ -2,6 +2,8 @@ import os
 import pickle
 from typing import Any
 
+import numpy as np
+
 from gym3.env import Env
 from gym3.types import multimap
 from gym3.types_np import concat, zeros
@@ -68,6 +70,7 @@ class TrajectoryRecorderWrapper(Wrapper):
             self._directory, f"{self._prefix}{self._episode_count:09d}.pickle"
         )
         with open(filepath, "wb") as f:
+            self._trajectories[idx]['reward'] = np.array(self._trajectories[idx]['reward'])
             pickle.dump(self._trajectories[idx], f)
         self._trajectories[idx] = self._new_trajectory_dict()
         self._episode_count += 1

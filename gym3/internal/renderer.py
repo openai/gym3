@@ -248,6 +248,7 @@ class Renderer:
 
         self._glfw.make_context_current(self._window)
         self._vao.render(self._mgl.TRIANGLE_STRIP)
+        tex.release()
 
     def draw_text(
         self,
