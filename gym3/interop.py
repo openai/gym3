@@ -260,7 +260,7 @@ class ToGymEnv:
         assert env.num == 1
         self.observation_space = _vt2space(env.ob_space)
         self.action_space = _vt2space(env.ac_space)
-        self.metadata = {"render.modes": []}
+        self.metadata = {"render.modes": ["human", "rgb_array"]}
         self.reward_range = (-float("inf"), float("inf"))
         self.spec = None
 
