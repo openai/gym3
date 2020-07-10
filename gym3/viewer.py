@@ -125,7 +125,7 @@ class ViewerWrapper(Wrapper):
 def main():
     import procgen
 
-    env = procgen.ProcgenGym3Env(num=1, env_name="coinrun", render_human=True)
+    env = procgen.ProcgenGym3Env(num=1, env_name="coinrun", render_mode='rgb_array')
     env = ViewerWrapper(env=env, info_key="rgb")
     start = time.time()
     for i in range(10000):
