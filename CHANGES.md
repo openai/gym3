@@ -2,7 +2,9 @@
 
 ## 0.3.3
 
-* Fix memory leak in `ViewerWrapper`
+* Fix memory leak in `ViewerWrapper` thanks to @jyotishp for reporting/debugging this.
+* Fix rendering settings, thanks @jyotishp and @mtrazzi!
+* Add seed argument to `vectorize_gym` and `FromGymEnv` to seed before reset
 
 ## 0.3.2
 

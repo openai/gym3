@@ -131,12 +131,13 @@ class FromGymEnv(Env):
             you can retrieve with env.get_info()["rgb"].
     """
 
-    def __init__(self, gym_env: Env, render_mode=None):
+    def __init__(self, gym_env: Env, render_mode=None, seed=None):
         super().__init__(
             ob_space=_space2vt(gym_env.observation_space),
             ac_space=_space2vt(gym_env.action_space),
             num=1,
         )
+        gym_env.seed(seed)
         self.gym_env = gym_env
         self.last_ob = gym_env.reset()
         self.last_rew = 0.0
@@ -342,14 +343,14 @@ class ToBaselinesVecEnv:
         pass
 
 
-def _make_gym_env(env_fn, env_kwargs, render_mode=None):
+def _make_gym_env(env_fn, env_kwargs, render_mode=None, seed=None):
     gym_env = env_fn(**env_kwargs)
-    env = FromGymEnv(gym_env, render_mode=render_mode)
+    env = FromGymEnv(gym_env, render_mode=render_mode, seed=seed)
     return env
 
 
 def vectorize_gym(
-    num, env_fn=None, env_kwargs=None, use_subproc=True, render_mode=None
+    num, env_fn=None, env_kwargs=None, use_subproc=True, render_mode=None, seed=None
 ):
     """
     Given a function that creates a gym environment and a number of environments to create,
@@ -380,14 +381,14 @@ def vectorize_gym(
             SubprocEnv(
                 env_fn=_make_gym_env,
                 env_kwargs=dict(
-                    env_fn=env_fn, env_kwargs=env_kwargs, render_mode=render_mode
+                    env_fn=env_fn, env_kwargs=env_kwargs, render_mode=render_mode, seed=seed,
                 ),
             )
             for _ in range(num)
         ]
     else:
         envs = [
-            _make_gym_env(env_fn=env_fn, env_kwargs=env_kwargs, render_mode=render_mode)
+            _make_gym_env(env_fn=env_fn, env_kwargs=env_kwargs, render_mode=render_mode, seed=seed)
             for _ in range(num)
         ]
     return ConcatEnv(envs)
