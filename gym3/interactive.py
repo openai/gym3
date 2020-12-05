@@ -254,6 +254,8 @@ class Interactive:
                             self._episode_return,
                         )
                     )
+                if first:
+                    break
 
         if first:
             print(f"final info={self._last_info}")
