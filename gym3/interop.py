@@ -287,7 +287,7 @@ class ToGymEnv:
         if mode == "rgb_array" and "rgb" in info:
             return info["rgb"]
 
-    def seed(self):
+    def seed(self, *args):
         print("Warning: seed ignored")
 
     def close(self):
