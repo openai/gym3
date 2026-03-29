@@ -118,7 +118,7 @@ def _assert_num_envs_1(ac):
 class FromGymEnv(Env):
     """
     Create a gym3 environment from a gym environment.
-    
+
     Notes:
         * low/high values for continuous spaces will be discarded since gym3 does not support these
         * some spaces are not supported
@@ -182,7 +182,7 @@ class FromBaselinesVecEnv(Env):
     """
     Create a gym3 environment from a baselines VecEnv environment.  baselines VecEnv is rarely used outside
     of the baselines code, and is not recommended for new environments.
-    
+
     Notes:
         * low/high values for continuous spaces will be discarded since gym3 does not support these
         * `callmethod()` will call methods on the underlying VecEnv environment
@@ -252,7 +252,7 @@ class ToGymEnv:
         * `seed()` and `close() are ignored since gym3 environments do not require these methods
         * `reset()` is ignored if used before an episode is complete because gym3 environments
             reset automatically, if `reset()` was called before the end of an episode, a warning is printed
-    
+
     :param env: gym3 environment to adapt
     """
 
@@ -265,7 +265,17 @@ class ToGymEnv:
         self.reward_range = (-float("inf"), float("inf"))
         self.spec = None
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: Dict[str, Any] | None = None,
+    ) -> Tuple["gym.core.ObsType", Dict[str, Any]]:
+        if seed is not None:
+            print("Warning: seed ignored")
+        if options is not None:
+            print("Warning: options ignored")
+
         _rew, ob, first = self.env.observe()
         if not first[0]:
             print("Warning: early reset ignored")
@@ -362,9 +372,9 @@ def vectorize_gym(
     to call:
 
         env = vectorize_gym(num=2, env_kwargs={"id": "Pendulum-v0"})
-    
+
     :param num: number of gym environments to create
-    :param env_fn: function to call to create the gym environment, defaults to `gym.make` 
+    :param env_fn: function to call to create the gym environment, defaults to `gym.make`
     :param env_kwargs: keyword arguments to pass to env_fn
     :param use_subproc: if set to False, create the environment in the current process
     :param render_mode: if set, this will be passed to the `FromGymEnv` adapter,
